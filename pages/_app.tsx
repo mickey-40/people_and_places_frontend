@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <div>
             <nav className="bg-gray-800 text-white p-4 flex justify-between">
-                <h1 className="text-lg font-bold">Burgers & Beers</h1>
+                <h1 className="text-lg font-bold">People and Places</h1>
                 <div>
                     {token ? (
                         <>
