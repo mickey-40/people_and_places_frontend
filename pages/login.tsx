@@ -13,6 +13,7 @@ export default function Login() {
         const data = await loginUser(username, password);
 
         if (data.token) {
+            localStorage.setItem("token", data.token);  // ✅ Store the token
             router.push("/");  // ✅ Redirect to homepage after login
         } else {
             setError(data.message || "Invalid credentials");

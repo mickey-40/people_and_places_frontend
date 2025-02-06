@@ -1,9 +1,42 @@
-const API_BASE_URL = "http://127.0.0.1:5000";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5000";
 
-export const fetchRestaurants = async () => {
-    const response = await fetch(`${API_BASE_URL}/restaurants/`);
-    return response.json();
-};
+export async function fetchRestaurants() {
+    const token = getToken();
+    if (!token) {
+        console.error("No token found in localStorage.");
+        return [];
+    }
+
+    const url = `${API_BASE_URL}/restaurants`;
+    console.log("Fetching restaurants from:", url);
+    
+    try {
+        const res = await fetch(url, {
+            method: "GET",
+            headers: { 
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}` 
+            },
+        });
+
+        console.log("Response status:", res.status);
+
+        if (!res.ok) {
+            const errorMessage = await res.text();
+            console.error("Server Error:", errorMessage);
+            throw new Error(`HTTP Error! Status: ${res.status}, Message: ${errorMessage}`);
+        }
+
+        const data = await res.json();
+        console.log("Fetched restaurants:", data);
+        return data;
+    } catch (error) {
+        console.error("Fetch error:", error);
+        return [];
+    }
+}
+
+
 
 export const fetchReviews = async (restaurantId: number) => {
     const response = await fetch(`${API_BASE_URL}/restaurants/${restaurantId}/reviews`);
@@ -37,18 +70,13 @@ export const getToken = () => {
     return null;
 };
 
-export const fetchUserProfile = async () => {
+export async function fetchUserProfile() {
     const token = getToken();
-    if (!token) return null; // ✅ Prevent request if no token
+    if (!token) return null;
 
-    const response = await fetch(`${API_BASE_URL}/users/me`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,  // ✅ Send JWT token
-        },
+    const res = await fetch(`${API_BASE_URL}/users/me`, {
+        headers: { Authorization: `Bearer ${token}` },
     });
 
-    if (!response.ok) return null;
-    return response.json();
-};
+    return res.ok ? res.json() : null;
+}
