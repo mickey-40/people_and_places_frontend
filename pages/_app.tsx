@@ -9,8 +9,18 @@ function MyApp({ Component, pageProps }: AppProps) {
     const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
-        setToken(getToken());  // ✅ Fetch token after page loads
+        const handleStorageChange = () => {
+            setToken(getToken());  // ✅ Update token when storage changes
+        };
+    
+        window.addEventListener("storage", handleStorageChange);
+        setToken(getToken());
+    
+        return () => {
+            window.removeEventListener("storage", handleStorageChange);
+        };
     }, []);
+    
 
     const handleLogout = () => {
         logoutUser();

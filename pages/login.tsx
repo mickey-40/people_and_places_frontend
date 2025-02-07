@@ -11,14 +11,16 @@ export default function Login() {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         const data = await loginUser(username, password);
-
+    
         if (data.token) {
-            localStorage.setItem("token", data.token);  // ✅ Store the token
-            router.push("/");  // ✅ Redirect to homepage after login
+            localStorage.setItem("token", data.token);  // ✅ Store token
+            window.dispatchEvent(new Event("storage"));  // ✅ Trigger re-render event
+            router.push("/");
         } else {
             setError(data.message || "Invalid credentials");
         }
     };
+    
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
