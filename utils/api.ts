@@ -36,6 +36,13 @@ export async function fetchRestaurants() {
     }
 }
 
+export async function fetchRestaurantById(id: string) {
+    const response = await fetch(`${API_BASE_URL}/restaurants/${id}`);  // Adjust API endpoint if needed
+    if (!response.ok) {
+        throw new Error("Failed to fetch restaurant details");
+    }
+    return response.json();
+}
 
 
 export const fetchReviews = async (restaurantId: number) => {
@@ -58,6 +65,17 @@ export const loginUser = async (username: string, password: string) => {
 
     return data;
 };
+
+export async function registerUser(username: string, password: string) {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+    });
+
+    return response.json();
+}
+
 
 export const logoutUser = () => {
     localStorage.removeItem("token");  // ✅ Remove JWT token on logout

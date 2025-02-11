@@ -19,7 +19,7 @@ export default function Profile() {
         }
 
         fetchUserProfile().then(setUser);
-    }, []);
+    }, [router]);
 
     if (!user) return <p className="text-center mt-10">Loading...</p>;
 
@@ -36,7 +36,7 @@ export default function Profile() {
                     ))}
                 </ul>
             ) : (
-                <p>You haven't liked any restaurants yet.</p>
+                <p>{`You haven't liked any restaurants yet.`}</p>
             )}
         </div>
     );

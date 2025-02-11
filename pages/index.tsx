@@ -19,7 +19,7 @@ export default function Home() {
         }
 
         fetchRestaurants().then(setRestaurants);
-    }, []);
+    }, [router]);
 
     return (
         <div className="p-6">
