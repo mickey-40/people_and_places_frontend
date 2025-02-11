@@ -47,7 +47,10 @@ function MyApp({ Component, pageProps }: AppProps) {
                             </button>
                         </>
                     ) : (
-                        <Link href="/login" className="bg-blue-500 px-3 py-1 rounded">Login</Link>
+                        <>
+                            <Link href="/login" className="bg-blue-500 px-3 py-1 rounded">Login</Link>
+                            <Link href="/register"  className="bg-green-500 px-3 py-1 rounded">Register</Link>
+                        </>
                     )}
                 </div>
             </nav>

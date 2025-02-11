@@ -66,6 +66,17 @@ export const loginUser = async (username: string, password: string) => {
     return data;
 };
 
+export async function registerUser(username: string, password: string) {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+    });
+
+    return response.json();
+}
+
+
 export const logoutUser = () => {
     localStorage.removeItem("token");  // ✅ Remove JWT token on logout
 };
