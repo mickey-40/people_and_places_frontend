@@ -3,24 +3,29 @@ import "../styles/globals.css";
 import { getToken, logoutUser } from "../utils/api";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 function MyApp({ Component, pageProps }: AppProps) {
     const router = useRouter();
     const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
+        // Redirect to landing page if the user is visiting the home page `/`
+        if (router.pathname === "/") {
+            router.push("/landing");
+        }
+
         const handleStorageChange = () => {
-            setToken(getToken());  // ✅ Update token when storage changes
+            setToken(getToken()); // ✅ Update token when storage changes
         };
-    
+
         window.addEventListener("storage", handleStorageChange);
         setToken(getToken());
-    
+
         return () => {
             window.removeEventListener("storage", handleStorageChange);
         };
-    }, []);
-    
+    }, [router]); // ✅ Add router to dependencies so it runs when router changes
 
     const handleLogout = () => {
         logoutUser();
@@ -31,17 +36,18 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <div>
             <nav className="bg-gray-800 text-white p-4 flex justify-between">
-                <h1 className="text-lg font-bold">People and Places</h1>
+                <Link href="/landing" className="text-lg font-bold">People and Places</Link>
+                <Link href="/restaurants" className="mr-4">Restaurants</Link>
                 <div>
                     {token ? (
                         <>
-                            <a href="/profile" className="mr-4">Profile</a>  {/* ✅ Profile Page */}
+                            <Link href="/profile" className="mr-4">Profile</Link>
                             <button onClick={handleLogout} className="bg-red-500 px-3 py-1 rounded">
                                 Logout
                             </button>
                         </>
                     ) : (
-                        <a href="/login" className="bg-blue-500 px-3 py-1 rounded">Login</a>
+                        <Link href="/login" className="bg-blue-500 px-3 py-1 rounded">Login</Link>
                     )}
                 </div>
             </nav>

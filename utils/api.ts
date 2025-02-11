@@ -36,6 +36,13 @@ export async function fetchRestaurants() {
     }
 }
 
+export async function fetchRestaurantById(id: string) {
+    const response = await fetch(`${API_BASE_URL}/restaurants/${id}`);  // Adjust API endpoint if needed
+    if (!response.ok) {
+        throw new Error("Failed to fetch restaurant details");
+    }
+    return response.json();
+}
 
 
 export const fetchReviews = async (restaurantId: number) => {
