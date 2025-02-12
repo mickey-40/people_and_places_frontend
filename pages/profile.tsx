@@ -19,13 +19,22 @@ export default function Profile() {
         }
 
         fetchUserProfile().then(setUser);
-    }, [router]);
+    }, []);
 
     if (!user) return <p className="text-center mt-10">Loading...</p>;
 
     return (
         <div className="p-6">
             <h1 className="text-3xl font-bold mb-4">Welcome, {user.username}!</h1>
+
+            {/* Button to My Restaurants */}
+            <button
+                onClick={() => router.push("/my-restaurants")}
+                className="bg-green-500 text-white px-4 py-2 rounded mb-4"
+            >
+                Manage My Restaurants
+            </button>
+
             <h2 className="text-2xl font-semibold mb-2">Liked Restaurants</h2>
             {user.liked_restaurants.length > 0 ? (
                 <ul>
