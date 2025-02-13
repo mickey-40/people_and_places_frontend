@@ -73,14 +73,14 @@ export default function MyRestaurantsPage() {
                     <input
                         type="text"
                         placeholder="Restaurant Name"
-                        className="w-full p-2 border rounded mb-2"
+                        className="w-full p-2 border rounded mb-2 text-black"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
                     <input
                         type="text"
                         placeholder="Description"
-                        className="w-full p-2 border rounded mb-2"
+                        className="w-full p-2 border rounded mb-2 text-black"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
