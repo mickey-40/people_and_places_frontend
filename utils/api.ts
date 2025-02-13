@@ -110,9 +110,10 @@ export async function addRestaurant(name: string, description: string) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,  // ✅ Send token for authentication
+            "Authorization": `Bearer ${token}`,  // ✅ Send token for authentication
         },
         body: JSON.stringify({ name, description }),
+        credentials: "include",  // ✅ Ensure cookies & tokens are included in CORS requests
     });
 
     if (!response.ok) {
@@ -122,6 +123,7 @@ export async function addRestaurant(name: string, description: string) {
 
     return await response.json();
 }
+
 
 // User can edit restaurant
 export async function editRestaurant(restaurantId: number, name: string, description: string) {
@@ -135,6 +137,7 @@ export async function editRestaurant(restaurantId: number, name: string, descrip
             Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ name, description }),
+        credentials: "include",  // ✅ Include credentials for authentication
     });
 
     if (!response.ok) {
